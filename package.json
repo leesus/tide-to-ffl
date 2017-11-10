@@ -1,0 +1,17 @@
+{
+  "name": "tide-to-ffl",
+  "version": "0.1.0",
+  "description": "Command line utility to convert Tide bank statement to First Freelance Live readable statement",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "leesus <lee.ellam@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.11.0",
+    "csv": "^2.0.0",
+    "moment": "^2.19.1"
+  }
+}
