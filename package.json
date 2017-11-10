@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Command line utility to convert Tide bank statement to First Freelance Live readable statement",
   "main": "index.js",
+  "bin": {
+    "tide-to-ffl": "./index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
