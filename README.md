@@ -1,7 +1,9 @@
-# tide-to-ffl
-Command line utility to convert Tide bank statement to First Freelance Live readable statement.
+# Tide to FreeAgent statements
+Command line utility to convert Tide bank statement CSV file into a format readable by FreeAgent.
 
-Usage: tide-to-ffl <file> [options]
+Usage below. Can use either `tide-to-freeagent` or `ttf` as a shorthand for the command.
+
+Usage: ttf <file> [options]
 
   Options:
 

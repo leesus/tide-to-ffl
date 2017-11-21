@@ -1,10 +1,12 @@
 {
-  "name": "tide-to-ffl",
+  "name": "tide-to-freeagent",
   "version": "0.1.0",
-  "description": "Command line utility to convert Tide bank statement to First Freelance Live readable statement",
+  "description":
+    "Command line utility to convert Tide bank statement CSV file into a format readable by FreeAgent.",
   "main": "index.js",
   "bin": {
-    "tide-to-ffl": "./index.js"
+    "tide-to-freeagent": "./index.js",
+    "ttf": "./index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
