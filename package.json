@@ -1,22 +1,29 @@
 {
   "name": "tide-to-freeagent",
   "version": "0.1.0",
-  "description":
-    "Command line utility to convert Tide bank statement CSV file into a format readable by FreeAgent.",
+  "description": "Command line utility to convert Tide bank statement CSV file into a format readable by FreeAgent.",
   "main": "index.js",
   "bin": {
     "tide-to-freeagent": "./index.js",
     "ttf": "./index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test"
   },
   "keywords": [],
   "author": "leesus <lee.ellam@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.5.1",
+    "chalk": "^2.3.0",
     "commander": "^2.11.0",
     "csv": "^2.0.0",
     "moment": "^2.19.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "sinon": "^4.1.3",
+    "sinon-chai": "^2.14.0"
   }
 }
