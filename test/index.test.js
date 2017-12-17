@@ -8,11 +8,18 @@ const {expect} = chai;
 chai.use(sinonChai);
 
 describe('#convert', () => {
+  const buffer = {};
+  const file = '/file/path';
+
   beforeEach(() => {
-    sinon.stub(lib, 'readFileAsync').resolves(Promise.resolve('file'));
-    sinon.stub(lib, 'transform').returns(() => Promise.resolve('file'));
-    sinon.stub(lib, 'stringify').returns(() => Promise.resolve('file'));
-    sinon.stub(lib, 'writeFileAsync').resolves(Promise.resolve('output'));
+    sinon.stub(lib, 'readFileAsync').resolves(Promise.resolve(buffer));
+    sinon.stub(lib, 'transform').returns(() => Promise.resolve([]));
+    sinon
+      .stub(lib, 'stringify')
+      .returns(() => Promise.resolve({file: 'file', filename: 'file.xyz'}));
+    sinon
+      .stub(lib, 'writeFileAsync')
+      .resolves(Promise.resolve({file: 'file', filename: 'file.xyz'}));
   });
 
   afterEach(() => {
@@ -23,12 +30,26 @@ describe('#convert', () => {
   });
 
   it('should call #readFileAsync, #transform, #stringify and #writeFileAsync', async () => {
+    const file = 'path/to/file';
     const options = {a: 1, b: 2, c: 3};
-    const output = await convert(options);
+    const output = await convert(file, options);
     expect(lib.readFileAsync).to.have.been.called;
     expect(lib.transform).to.have.been.called;
     expect(lib.stringify).to.have.been.called;
     expect(lib.writeFileAsync).to.have.been.called;
-    expect(output).to.equal('output');
+    expect(output).to.eql({file: 'file', filename: 'file.xyz'});
+  });
+
+  describe('when options.buffer is true', () => {
+    it('should not call any file methods and call #transform and #stringify', async () => {
+      const buffer = {};
+      const options = {buffer: true};
+      const output = await convert(buffer, options);
+      expect(lib.readFileAsync).not.to.have.been.called;
+      expect(lib.transform).to.have.been.called;
+      expect(lib.stringify).to.have.been.called;
+      expect(lib.writeFileAsync).not.to.have.been.called;
+      expect(output).to.eql({file: 'file', filename: 'file.xyz'});
+    });
   });
 });

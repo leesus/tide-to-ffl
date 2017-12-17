@@ -41,6 +41,6 @@ describe('#writeFileAsync', () => {
     const output = await writeFileAsync({file, filename});
 
     expect(fs.writeFileAsync).to.have.been.calledWith(filename, file);
-    expect(output).to.equal(file);
+    expect(output).to.eql({file, filename});
   });
 });

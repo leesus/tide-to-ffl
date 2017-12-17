@@ -5,6 +5,7 @@ const {expect} = chai;
 describe('#stringify', () => {
   const rows = [
     ['25/12/2017', -25.99, 'Christmas'],
+    ['25/12/2017', 10, 'Christmas Morning'],
     ['31/10/2017', 31.25, 'Halloween'],
   ];
 
@@ -16,7 +17,7 @@ describe('#stringify', () => {
     const stringifier = stringify({});
     const {file} = await stringifier(rows);
     expect(file).to.equal(
-      '"25/12/2017",-25.99,"Christmas"\n"31/10/2017",31.25,"Halloween"'
+      '"25/12/2017",-25.99,"Christmas"\n"25/12/2017",10,"Christmas Morning"\n"31/10/2017",31.25,"Halloween"'
     );
   });
 
@@ -44,10 +45,20 @@ describe('#stringify', () => {
     });
 
     describe('and there are multiple rows', () => {
-      it('should return {start date}-{end date}.csv', async () => {
-        const stringifier = stringify({});
-        const {filename} = await stringifier(rows);
-        expect(filename).to.equal('31102017-25122017.csv');
+      describe('with only one date', () => {
+        it('should return {date}.csv filename', async () => {
+          const stringifier = stringify({});
+          const {filename} = await stringifier([rows[0], rows[1]]);
+          expect(filename).to.equal('25122017.csv');
+        });
+      });
+
+      describe('with multiple dates', () => {
+        it('should return {start date}-{end date}.csv', async () => {
+          const stringifier = stringify({});
+          const {filename} = await stringifier(rows);
+          expect(filename).to.equal('31102017-25122017.csv');
+        });
       });
     });
   });

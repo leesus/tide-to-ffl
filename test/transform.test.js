@@ -41,6 +41,22 @@ describe('#transform', () => {
       'Cleared',
     ],
     [
+      '2017-11-23',
+      '2017-11-23 16:35:02',
+      'T171225163502',
+      'Thanksgiving',
+      'Sales',
+      '123456',
+      '24.75',
+      'Faster Payment in',
+      'Blah',
+      'Payee 3',
+      'Blah',
+      'Blah',
+      'Blah',
+      'Cleared',
+    ],
+    [
       '2017-10-31',
       '2017-10-31 08:16:10',
       'T171031081610',
@@ -77,6 +93,7 @@ describe('#transform', () => {
     const output = await transformer(file);
     expect(output).to.eql([
       ['25/12/2017', -25.99, 'Christmas'],
+      ['23/11/2017', 24.75, 'Thanksgiving'],
       ['31/10/2017', 31.25, 'Halloween'],
     ]);
   });
@@ -87,12 +104,32 @@ describe('#transform', () => {
       let output = await transformer(file);
       expect(output).to.eql([
         ['25/12/2017', -25.99, 'Christmas'],
+        ['23/11/2017', 24.75, 'Thanksgiving'],
         ['31/10/2017', 31.25, 'Halloween'],
       ]);
 
       transformer = lib.transform({start: '2017-11-01'});
       output = await transformer(file);
-      expect(output).to.eql([['25/12/2017', -25.99, 'Christmas']]);
+      expect(output).to.eql([
+        ['25/12/2017', -25.99, 'Christmas'],
+        ['23/11/2017', 24.75, 'Thanksgiving'],
+      ]);
+    });
+
+    describe('and single option is true', () => {
+      it('should only include rows equal to that date', async () => {
+        let transformer = lib.transform({start: '2017-10-31'});
+        let output = await transformer(file);
+        expect(output).to.eql([
+          ['25/12/2017', -25.99, 'Christmas'],
+          ['23/11/2017', 24.75, 'Thanksgiving'],
+          ['31/10/2017', 31.25, 'Halloween'],
+        ]);
+
+        transformer = lib.transform({start: '2017-11-23', single: true});
+        output = await transformer(file);
+        expect(output).to.eql([['23/11/2017', 24.75, 'Thanksgiving']]);
+      });
     });
   });
 
@@ -102,12 +139,32 @@ describe('#transform', () => {
       let output = await transformer(file);
       expect(output).to.eql([
         ['25/12/2017', -25.99, 'Christmas'],
+        ['23/11/2017', 24.75, 'Thanksgiving'],
         ['31/10/2017', 31.25, 'Halloween'],
       ]);
 
       transformer = lib.transform({end: '2017-12-24'});
       output = await transformer(file);
-      expect(output).to.eql([['31/10/2017', 31.25, 'Halloween']]);
+      expect(output).to.eql([
+        ['23/11/2017', 24.75, 'Thanksgiving'],
+        ['31/10/2017', 31.25, 'Halloween'],
+      ]);
+    });
+
+    describe('and single option is true', () => {
+      it('should only include rows equal to that date', async () => {
+        let transformer = lib.transform({end: '2017-12-25'});
+        let output = await transformer(file);
+        expect(output).to.eql([
+          ['25/12/2017', -25.99, 'Christmas'],
+          ['23/11/2017', 24.75, 'Thanksgiving'],
+          ['31/10/2017', 31.25, 'Halloween'],
+        ]);
+
+        transformer = lib.transform({end: '2017-10-31', single: true});
+        output = await transformer(file);
+        expect(output).to.eql([['31/10/2017', 31.25, 'Halloween']]);
+      });
     });
   });
 
@@ -120,6 +177,7 @@ describe('#transform', () => {
       let output = await transformer(file);
       expect(output).to.eql([
         ['25/12/2017', -25.99, 'Christmas'],
+        ['23/11/2017', 24.75, 'Thanksgiving'],
         ['31/10/2017', 31.25, 'Halloween'],
       ]);
 
@@ -128,7 +186,7 @@ describe('#transform', () => {
         end: '2017-12-24',
       });
       output = await transformer(file);
-      expect(output).to.eql([]);
+      expect(output).to.eql([['23/11/2017', 24.75, 'Thanksgiving']]);
     });
   });
 });
